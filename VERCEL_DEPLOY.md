@@ -102,6 +102,16 @@ Windows PowerShell의 실행 정책으로 `npm`이 실행되지 않으면 `npm.c
 
 전체 파일명은 `IMAGE_GUIDE.md`에서 확인할 수 있습니다.
 
+**공유 대표 이미지를 교체합니다.**
+
+`public/og-preview.png`를 새 PNG로 교체하고 커밋·push하세요. 권장 크기는 1200×630px입니다. 파일 확장자뿐 아니라 실제 저장 형식도 PNG여야 합니다.
+
+빌드할 때 `vite.config.ts`의 `socialPreview`가 이미지 내용에 따라 `dist/assets/og-preview-<해시>.png`를 만들고, 초기 HTML의 OG/Twitter 이미지 URL과 실제 가로·세로 크기를 자동으로 입력합니다. 이미지가 바뀌면 URL도 바뀌므로 `index.html`의 버전이나 크기를 직접 수정할 필요가 없습니다. 원본 `/og-preview.png` 경로도 유지됩니다. 운영 도메인이 바뀌면 `vite.config.ts`의 `SITE_ORIGIN`을 변경하세요.
+
+배포가 Ready가 된 후 페이지 소스의 `og:image` 주소를 직접 열어 새 이미지가 나오는지 확인합니다. `/gift/...` 공유 링크도 같은 메타 정보를 포함합니다.
+
+카카오톡은 이미 공유한 페이지 주소의 미리보기 정보를 캐시할 수 있습니다. 이전 미리보기가 계속 보이면 [카카오 공유 디버거](https://developers.kakao.com/tool/debugger/sharing)에 **실제로 공유한 전체 페이지 URL**을 입력하고 캐시를 초기화한 뒤 새 메시지로 공유하세요. 앱에서 선물 링크를 새로 생성하면 새로운 고유 ID의 주소를 사용할 수 있습니다. 이 빌드 설정이 카카오에 저장된 기존 메시지나 페이지 캐시를 강제로 삭제하지는 않습니다. [카카오의 OG 캐시 안내](https://developers.kakao.com/docs/ko/message-template/faq#q-스크랩한-미리보기-이미지가-바뀌지-않습니다)
+
 **검증 범위**
 
 로컬에서 `npm install`, `npm test`, `npm run build`, `npm run preview`를 확인했습니다. Vercel 공식 라우팅 유틸리티로 SPA 규칙과 정적 경로 제외를 검증했습니다.
