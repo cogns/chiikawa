@@ -4,7 +4,7 @@
 
 ## 설치 및 실행
 
-Node.js 22.18 이상을 사용합니다. 프로젝트 루트에서 실행하세요.
+Node.js 24.x를 사용합니다. 프로젝트 루트에서 실행하세요.
 
 ```sh
 npm ci
@@ -49,6 +49,10 @@ npm run preview
 - `src/data/gifts/`에서 캐릭터 ID와 이름이 같은 파일을 엽니다. 각 항목의 `name`, `description`, `image`를 따로 수정할 수 있습니다. 등장 회차를 표시하려면 `episode: '42화'`처럼 입력하세요.
 - `src/lib/gift.ts`의 `EMPTY_BOX_PROBABILITY`가 빈 상자 확률입니다. 기본값 `0.15`는 빈 상자 15%, 일반 선물 85%입니다. 일반 선물은 발신 캐릭터의 목록에서 균등하게 뽑습니다. 확률을 바꾸면 해당 값을 검증하는 `tests/gift.test.mjs`의 기대값도 갱신하세요.
 - 링크에는 고유 ID와 `from`만 담습니다. 받는 사람은 선물 상자를 톡톡 두드려 열 수 있습니다. 같은 링크를 새로고침하거나 다시 방문하면 미개봉 상자로 돌아가며, 상자를 열 때마다 새로 뽑습니다.
+
+## Vercel 배포
+
+설치 명령은 `npm install`, 빌드 명령은 `npm run build`, 출력 폴더는 `dist`입니다. 프로젝트 루트의 `vercel.json`에 SPA 경로와 빌드 설정이 포함되어 있습니다. GitHub 연결과 자동 재배포 절차는 [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md)를 참고하세요.
 
 ## Cloudflare Pages 배포
 
