@@ -36,7 +36,7 @@
 .character-card--usagi, .letter--usagi, .portrait--usagi, .parcel--usagi,
 .home-window[data-character-theme="usagi"] { --character-base: var(--color-usagi); }
 
-.character-card, .letter, .portrait, .parcel, .celebration, .action--replay, .action--send, .home-window[data-character-theme] {
+.character-card, .letter, .portrait, .parcel, .celebration, .action--replay, .home-window[data-character-theme] {
   --wash: color-mix(in srgb, var(--character-base) 36%, var(--paper));
   --trim: color-mix(in srgb, var(--character-base) 78%, black);
   --accent: color-mix(in srgb, var(--character-base) 44%, black);
@@ -254,8 +254,7 @@ fieldset { min-inline-size: 0; margin: 0; padding: 0; border: 0; }
   font-weight: 800;
   text-decoration: none;
 }
-.action--replay { --character-base: var(--color-hachiware); }
-.action--send { --character-base: var(--color-chiikawa); }
+.action--replay { --character-base: var(--background); }
 .outcome-action-icon { flex: none; width: 14px; height: 14px; }
 .action:disabled {
   --pixel-fill: #f4dce0;

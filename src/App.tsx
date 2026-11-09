@@ -313,7 +313,7 @@ function GiftOutcome({
           </svg>
           다른 선물도 열어볼래?
         </button>
-        <a className="pixel-panel pixel-button action action--send" href="/">
+        <a className="pixel-panel pixel-button action" href="/">
           <svg className="outcome-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
             <path d="M12 20.5 4.7 13.2a4.5 4.5 0 0 1 6.4-6.4l.9.9.9-.9a4.5 4.5 0 0 1 6.4 6.4Z" />
           </svg>
