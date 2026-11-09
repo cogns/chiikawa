@@ -29,10 +29,10 @@ export const characters: Record<CharacterId, Character> = {
     name: '치이카와',
     concept: '',
     speech: {
-      selected: '와아...!',
-      arrival: '우... 우와앗...!',
-      surprised: '하앗...?!',
-      result: '와아...! 에헤헤...!',
+      selected: '우와...!',
+      arrival: '우... 우와...!',
+      surprised: '후잉...?!',
+      result: '와아...! 헤헤...!',
     },
     images: {
       default: '/images/characters/chiikawa/idle.png',
@@ -44,10 +44,10 @@ export const characters: Record<CharacterId, Character> = {
     name: '하치와레',
     concept: '',
     speech: {
-      selected: '좋아! 선물하러 가자!',
+      selected: '좋아! 분명 기뻐할거야!',
       arrival: '짜잔~! 선물이야!',
       surprised: '뭔가 나올 것 같아!',
-      result: '에헤헤! 마음에 들었으면 좋겠다!',
+      result: '헤헤! 마음에 들었으면 좋겠다!',
     },
     images: {
       default: '/images/characters/hachiware/idle.png',

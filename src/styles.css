@@ -1,5 +1,13 @@
+@font-face {
+  font-family: "GalmuriMono11";
+  src: url("./assets/fonts/GalmuriMono11.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 :root {
-  font-family: "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  font-family: "GalmuriMono11", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
   font-synthesis: none;
   color-scheme: light;
   --background: #f8eee3;
@@ -28,7 +36,7 @@
 .character-card--usagi, .letter--usagi, .portrait--usagi, .parcel--usagi,
 .home-window[data-character-theme="usagi"] { --character-base: var(--color-usagi); }
 
-.character-card, .letter, .portrait, .parcel, .celebration, .home-window[data-character-theme] {
+.character-card, .letter, .portrait, .parcel, .celebration, .action--replay, .action--send, .home-window[data-character-theme] {
   --wash: color-mix(in srgb, var(--character-base) 36%, var(--paper));
   --trim: color-mix(in srgb, var(--character-base) 78%, black);
   --accent: color-mix(in srgb, var(--character-base) 44%, black);
@@ -115,6 +123,14 @@ p, h1 { margin: 0; }
   text-decoration: none;
 }
 .brand .pixel-icon { color: var(--rose); animation: quiet-heart 4.8s ease-in-out infinite; }
+footer {
+  padding: 19px 2px 20px;
+  color: var(--muted);
+  font-size: 0.69rem;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
 .home-window, .letter { padding: 0 15px 17px; }
 .home-window { animation: panel-enter 240ms ease-out both; }
 .window-bar {
@@ -238,6 +254,9 @@ fieldset { min-inline-size: 0; margin: 0; padding: 0; border: 0; }
   font-weight: 800;
   text-decoration: none;
 }
+.action--replay { --character-base: var(--color-hachiware); }
+.action--send { --character-base: var(--color-chiikawa); }
+.outcome-action-icon { flex: none; width: 14px; height: 14px; }
 .action:disabled {
   --pixel-fill: #f4dce0;
   --pixel-edge: #cda4a9;
@@ -509,6 +528,7 @@ fieldset { min-inline-size: 0; margin: 0; padding: 0; border: 0; }
   animation: panel-enter 220ms 1050ms ease-out both;
 }
 .outcome--empty .action { animation: panel-enter 220ms 1100ms ease-out both; }
+.outcome .action + .action { margin-top: 8px; }
 .episode { margin-top: 7px; font-size: 0.75rem; color: var(--muted); }
 .invalid > .parcel { margin-bottom: 9px; }
 
@@ -754,11 +774,81 @@ fieldset { min-inline-size: 0; margin: 0; padding: 0; border: 0; }
   border: 2px solid var(--box-line);
   background: var(--box-ribbon);
 }
+/* Stretch and slide the whole bow so the loops stay connected to the knot. */
+.parcel-motion[data-ribbon-step] {
+  --ribbon-nudged: scale(1.02, .99);
+  --ribbon-relaxed: scale(1.06, .96);
+  --ribbon-spread: scale(1.12, .92);
+  --ribbon-loose: scale(1.18, .86);
+  --knot-soft: scale(.92, .88);
+  --knot-loose: scale(.8, .72);
+}
+.parcel-motion:is([data-ribbon-step="1"], [data-ribbon-step="2"]) {
+  --ribbon-animation: ribbon-sway 220ms ease-out both;
+}
+.parcel-motion[data-ribbon-step="1"] {
+  --ribbon-to: var(--ribbon-nudged);
+}
+.parcel-motion[data-ribbon-step="2"] {
+  --ribbon-from: var(--ribbon-nudged);
+  --ribbon-to: var(--ribbon-relaxed);
+}
+.parcel-motion:is([data-ribbon-step="3"], [data-ribbon-step="4"]) {
+  --ribbon-animation: ribbon-stretch 180ms ease-out both;
+  --knot-animation: ribbon-soften-knot 180ms ease-out both;
+}
+.parcel-motion[data-ribbon-step="3"] {
+  --ribbon-from: var(--ribbon-relaxed);
+  --ribbon-to: var(--ribbon-spread);
+  --knot-to: var(--knot-soft);
+}
+.parcel-motion[data-ribbon-step="4"] {
+  --ribbon-from: var(--ribbon-spread);
+  --ribbon-to: var(--ribbon-loose);
+  --knot-from: var(--knot-soft);
+  --knot-to: var(--knot-loose);
+}
+.parcel-motion[data-ribbon-step="5"] {
+  /* The release finishes before lid-launch starts at 320ms. */
+  --ribbon-animation: ribbon-slide 260ms ease-in-out both;
+  --ribbon-from: var(--ribbon-loose);
+  --ribbon-to: translate(48px, 7px) scale(1.16, .83);
+  --ribbon-opacity: 0;
+  --knot-to: var(--knot-loose);
+}
+.parcel-motion > .parcel .parcel-bow {
+  transform-origin: center 29px;
+  transform: var(--ribbon-to, none);
+  opacity: var(--ribbon-opacity, 1);
+  animation: var(--ribbon-animation, none);
+}
+.parcel-motion > .parcel .parcel-bow > span {
+  transform-origin: center bottom;
+  transform: var(--knot-to, none);
+  animation: var(--knot-animation, none);
+}
 .parcel--open .parcel-top { transform: translate(-13px, -10px) rotate(-24deg); }
 .parcel--open .parcel-body {
   box-shadow: inset 0 8px var(--box-interior), inset 0 -6px var(--box-shade), 0 -2px var(--box-line), 0 2px var(--box-line), -2px 0 var(--box-line), 2px 0 var(--box-line);
 }
 
+/* The box remounts on each tap, so keyframes start at the previous settled pose. */
+@keyframes ribbon-sway {
+  from { transform: var(--ribbon-from, none); }
+  35% { transform: translateX(-2px) var(--ribbon-to); }
+  65% { transform: translateX(1px) var(--ribbon-to); }
+}
+@keyframes ribbon-stretch {
+  from { transform: var(--ribbon-from); }
+}
+@keyframes ribbon-soften-knot {
+  from { transform: var(--knot-from, none); }
+}
+@keyframes ribbon-slide {
+  from { transform: var(--ribbon-from); opacity: 1; }
+  30% { transform: translate(7px, -2px) scale(1.2, .86); }
+  70% { opacity: 1; }
+}
 @keyframes parcel-nudge {
   0%, 70%, 100% { transform: none; }
   28% { transform: translateY(-3px) rotate(-1deg); }

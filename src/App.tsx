@@ -117,7 +117,7 @@ function HomePage() {
       ) : (
         <p className="secret-note">
           <span className="pixel-icon pixel-icon--spark" aria-hidden="true" />
-          상자를 열기 전까지는 어떤 선물인지 비밀이에요.
+          상자를 열기 전까지는 비밀! 가끔 예상치 못한 일이 생길지도..?
         </p>
       )}
     </section>
@@ -128,7 +128,8 @@ function GiftPage({ characterId }: { characterId: CharacterId }) {
   const character = characters[characterId]
   const [state, setState] = useState<OpeningState>({ phase: 'idle' })
   const { phase } = state
-  const resultHeading = useRef<HTMLHeadingElement>(null)
+  const heading = useRef<HTMLHeadingElement>(null)
+  const replaying = useRef(false)
 
   useEffect(() => {
     function resetOnReturn(event: PageTransitionEvent) {
@@ -159,11 +160,26 @@ function GiftPage({ characterId }: { characterId: CharacterId }) {
   }, [state, characterId])
 
   useEffect(() => {
-    if (phase === 'opened') resultHeading.current?.focus({ preventScroll: true })
+    if (phase === 'idle' && replaying.current) {
+      replaying.current = false
+      window.scrollTo(0, 0)
+      heading.current?.focus({ preventScroll: true })
+    }
+    if (phase === 'opened') heading.current?.focus({ preventScroll: true })
   }, [phase])
 
   if (state.phase === 'opened') {
-    return <GiftOutcome result={state.result} characterId={characterId} headingRef={resultHeading} />
+    return (
+      <GiftOutcome
+        result={state.result}
+        characterId={characterId}
+        headingRef={heading}
+        onReplay={() => {
+          replaying.current = true
+          setState({ phase: 'idle' })
+        }}
+      />
+    )
   }
 
   function tapParcel() {
@@ -177,6 +193,7 @@ function GiftPage({ characterId }: { characterId: CharacterId }) {
   }
 
   const opening = state.phase === 'opening' || state.phase === 'revealing'
+  const ribbonStep = state.phase === 'tapping' ? state.taps : opening ? TAPS_TO_OPEN : 0
   const motion = state.phase === 'tapping' ? (state.taps <= 2 ? 'bounce' : 'rattle') : opening ? 'opening' : 'idle'
   const characterMood = motion === 'bounce' ? 'happy' : motion === 'rattle' || opening ? 'surprised' : 'idle'
   const characterCue = state.phase === 'tapping' ? state.taps : motion
@@ -194,12 +211,13 @@ function GiftPage({ characterId }: { characterId: CharacterId }) {
           speech={showSurprise ? character.speech.surprised : character.speech.arrival}
         />
       </div>
-      <h1 className="arrival-title">{character.name}가 <br />선물을 보냈어요!</h1>
+      <h1 className="arrival-title" tabIndex={-1} ref={heading}>{character.name}가 <br />선물을 보냈어요!</h1>
       <div className="parcel-stage">
         <button type="button" className="pixel-panel pixel-button pixel-well parcel-button" onClick={tapParcel} disabled={opening} aria-label="선물 상자 두드리기">
           <span className="pixel-icon pixel-icon--spark parcel-sparkle" aria-hidden="true" />
           <span
             className={`parcel-motion parcel-motion--${motion}`}
+            data-ribbon-step={ribbonStep}
             key={state.phase === 'tapping' ? state.taps : motion}
           >
             <Parcel characterId={characterId} open={opening} />
@@ -233,10 +251,12 @@ function GiftOutcome({
   result,
   characterId,
   headingRef,
+  onReplay,
 }: {
   result: GiftResult
   characterId: CharacterId
   headingRef: Ref<HTMLHeadingElement>
+  onReplay: () => void
 }) {
   const empty = result.kind === 'empty'
   const presenter = characters[empty ? 'usagi' : characterId]
@@ -286,7 +306,19 @@ function GiftOutcome({
           {empty && <p className="reward-note">분명 선물이 들어 있었는데...</p>}
           {result.kind === 'gift' && result.gift.episode && <p className="episode">등장 회차 {result.gift.episode}</p>}
         </article>
-        <a className="pixel-panel pixel-button action" href="/">나도 선물 보내기</a>
+        <button type="button" className="pixel-panel pixel-button action action--replay" onClick={onReplay}>
+          <svg className="outcome-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+            <rect x="3" y="8" width="18" height="4" rx="1" />
+            <path d="M5 12v9h14v-9M12 8v13m0-13H8.5a2.5 2.5 0 1 1 0-5C10.5 3 12 5.6 12 8Zm0 0h3.5a2.5 2.5 0 1 0 0-5C13.5 3 12 5.6 12 8Z" />
+          </svg>
+          다른 선물도 열어볼래?
+        </button>
+        <a className="pixel-panel pixel-button action action--send" href="/">
+          <svg className="outcome-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+            <path d="M12 20.5 4.7 13.2a4.5 4.5 0 0 1 6.4-6.4l.9.9.9-.9a4.5 4.5 0 0 1 6.4 6.4Z" />
+          </svg>
+          친구에게 선물 보내기
+        </a>
       </section>
     </>
   )
@@ -300,7 +332,7 @@ export function App() {
       <header className="site-header">
         <a href="/" className="pixel-panel pixel-badge brand">
           <span className="pixel-icon pixel-icon--heart" aria-hidden="true" />
-          치이카와 선물 우체국
+          먼작귀 선물 우체국
         </a>
       </header>
       <main>

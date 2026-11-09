@@ -42,7 +42,7 @@
 | 제초 검정 공부책 | `weeding-workbook` | `weeding-workbook.png` | `public/images/gifts/chiikawa/weeding-workbook.png` |
 | 제초 검정 수험표 | `weeding-admission-ticket` | `weeding-admission-ticket.png` | `public/images/gifts/chiikawa/weeding-admission-ticket.png` |
 | 병아리 알람시계 | `chick-alarm-clock` | `chick-alarm-clock.png` | `public/images/gifts/chiikawa/chick-alarm-clock.png` |
-| 보수 봉투 | `pay-envelope` | `pay-envelope.png` | `public/images/gifts/chiikawa/pay-envelope.png` |
+| 저설탕 커피 | `pay-envelope` | `pay-envelope.png` | `public/images/gifts/chiikawa/pay-envelope.png` |
 | 반짝이 카드 | `sparkly-card` | `sparkly-card.png` | `public/images/gifts/chiikawa/sparkly-card.png` |
 | 추억의 리본 | `memory-ribbon` | `memory-ribbon.png` | `public/images/gifts/chiikawa/memory-ribbon.png` |
 | 단단한 푸딩 | `firm-pudding` | `firm-pudding.png` | `public/images/gifts/chiikawa/firm-pudding.png` |

@@ -11,8 +11,8 @@ export const chiikawaGifts: readonly Gift[] = [
   {
     id: 'bear-pouch',
     characterId: 'chiikawa',
-    name: '곰돌이 파우치',
-    description: '소중한 건 전부 곰돌이 품에 쏙.',
+    name: '곰돌이 포쉐트',
+    description: '소중한 건 전부 곰돌이 품에 쏙!',
     image: '/images/gifts/chiikawa/bear-pouch.png',
   },
   {
