@@ -329,12 +329,12 @@ export function App() {
 
   return (
     <div className="site">
-      <header className="site-header">
+      {/* <header className="site-header">
         <a href="/" className="pixel-panel pixel-badge brand">
           <span className="pixel-icon pixel-icon--heart" aria-hidden="true" />
           먼작귀 선물 우체국
         </a>
-      </header>
+      </header> */}
       <main>
         {route.page === 'home' && <HomePage />}
         {route.page === 'gift' && <GiftPage key={route.linkId} characterId={route.characterId} />}

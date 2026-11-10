@@ -111,6 +111,7 @@ p, h1 { margin: 0; }
 }
 
 .site { width: min(100% - 28px, 448px); margin-inline: auto; text-align: center; }
+.site > main:first-child { padding-top: 19px; }
 .site-header { padding: 19px 0 15px; }
 .brand {
   --pixel-fill: #fff3e7;
