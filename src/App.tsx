@@ -27,8 +27,10 @@ function WindowBar({ label }: { label: string }) {
   )
 }
 
-function HomePage() {
-  const [selected, setSelected] = useState<CharacterId>()
+function HomePage({ selected, onSelect }: {
+  selected: CharacterId | undefined
+  onSelect: (id: CharacterId) => void
+}) {
   const [link, setLink] = useState('')
   const [copyStatus, setCopyStatus] = useState('')
   const [selectionCue, setSelectionCue] = useState(0)
@@ -74,7 +76,7 @@ function HomePage() {
                   checked={selected === id}
                   onClick={() => setSelectionCue((cue) => cue + 1)}
                   onChange={() => {
-                    setSelected(id)
+                    onSelect(id)
                     setLink('')
                     setCopyStatus('')
                   }}
@@ -326,6 +328,8 @@ function GiftOutcome({
 
 export function App() {
   const route = parseRoute(new URL(window.location.href))
+  const [selected, setSelected] = useState<CharacterId>()
+  const envelopeCharacter = route.page === 'gift' ? route.characterId : selected
 
   return (
     <div className="site">
@@ -335,8 +339,17 @@ export function App() {
           먼작귀 선물 우체국
         </a>
       </header> */}
+      <div className="site-header" data-character-theme={envelopeCharacter} aria-hidden="true">
+        <svg width="174" height="66" viewBox="0 0 58 22" shapeRendering="crispEdges">
+          <path fill="var(--line-soft)" d="M5 8h2v2h2v2H7v2H5v-2H3v-2h2zM51 8h2v2h2v2h-2v2h-2v-2h-2v-2h2z" />
+          <rect x="16.5" y="3.5" width="25" height="15" fill="var(--character-base, var(--pink))" stroke="var(--line)" />
+          <path fill="var(--paper)" d="M17 4h24v2l-12 8-12-8z" />
+          <path fill="none" stroke="var(--line)" d="m17 6 12 8 12-8" />
+          <path fill="var(--rose)" d="M25 9h3v1h2V9h3v4h-1v1h-1v1h-1v1h-2v-1h-1v-1h-1v-1h-1z" />
+        </svg>
+      </div>
       <main>
-        {route.page === 'home' && <HomePage />}
+        {route.page === 'home' && <HomePage selected={selected} onSelect={setSelected} />}
         {route.page === 'gift' && <GiftPage key={route.linkId} characterId={route.characterId} />}
         {route.page === 'invalid' && (
           <section className="pixel-panel letter letter--chiikawa invalid">

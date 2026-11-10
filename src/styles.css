@@ -30,11 +30,11 @@
 }
 
 .character-card--chiikawa, .letter--chiikawa, .portrait--chiikawa, .parcel--chiikawa,
-.home-window[data-character-theme="chiikawa"] { --character-base: var(--color-chiikawa); }
+[data-character-theme="chiikawa"] { --character-base: var(--color-chiikawa); }
 .character-card--hachiware, .letter--hachiware, .portrait--hachiware, .parcel--hachiware,
-.home-window[data-character-theme="hachiware"] { --character-base: var(--color-hachiware); }
+[data-character-theme="hachiware"] { --character-base: var(--color-hachiware); }
 .character-card--usagi, .letter--usagi, .portrait--usagi, .parcel--usagi,
-.home-window[data-character-theme="usagi"] { --character-base: var(--color-usagi); }
+[data-character-theme="usagi"] { --character-base: var(--color-usagi); }
 
 .character-card, .letter, .portrait, .parcel, .celebration, .action--replay, .home-window[data-character-theme] {
   --wash: color-mix(in srgb, var(--character-base) 36%, var(--paper));
