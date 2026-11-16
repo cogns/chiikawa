@@ -112,6 +112,24 @@ Windows PowerShell의 실행 정책으로 `npm`이 실행되지 않으면 `npm.c
 
 카카오톡은 이미 공유한 페이지 주소의 미리보기 정보를 캐시할 수 있습니다. 이전 미리보기가 계속 보이면 [카카오 공유 디버거](https://developers.kakao.com/tool/debugger/sharing)에 **실제로 공유한 전체 페이지 URL**을 입력하고 캐시를 초기화한 뒤 새 메시지로 공유하세요. 앱에서 선물 링크를 새로 생성하면 새로운 고유 ID의 주소를 사용할 수 있습니다. 이 빌드 설정이 카카오에 저장된 기존 메시지나 페이지 캐시를 강제로 삭제하지는 않습니다. [카카오의 OG 캐시 안내](https://developers.kakao.com/docs/ko/message-template/faq#q-스크랩한-미리보기-이미지가-바뀌지-않습니다)
 
+## Vercel 방문 통계 자동 기록
+
+1. Vercel 프로젝트의 **Analytics** 탭에서 Web Analytics가 활성화되어 있는지 확인하세요. Vercel 계정 설정의 **Tokens**에서 **Create Token**을 누르고, 해당 프로젝트의 소유 팀에 접근할 수 있는 범위와 만료일을 선택해 토큰을 생성하세요. [Vercel 토큰 설정](https://vercel.com/account/tokens) · [Web Analytics API 사용 조건](https://vercel.com/docs/analytics/web-analytics-api#prerequisites)
+2. `cogns/chiikawa`의 **Settings → Secrets and variables → Actions → New repository secret**에서 아래 값을 각각 등록하세요. [GitHub Actions Secrets 등록 방법](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets)
+
+   | Secret 이름 | 값 |
+   | --- | --- |
+   | `VERCEL_TOKEN` | 1단계에서 생성한 토큰 |
+   | `VERCEL_PROJECT_ID` | Vercel 프로젝트의 **Settings → General → Project ID** |
+   | `VERCEL_TEAM_ID` | 팀 소유 프로젝트의 **팀 Settings → General → Team ID**. 개인 계정 소유 프로젝트는 생략합니다. |
+
+3. 변경 파일을 GitHub 기본 브랜치 `main`에 올린 후 **Actions → Daily Vercel Analytics → Run workflow → main → Run workflow**를 선택하세요. Actions가 꺼져 있다면 저장소 **Settings → Actions → General**에서 활성화하고, 워크플로가 비활성화되어 있다면 해당 화면에서 **Enable workflow**를 누르세요. 예약 실행은 워크플로가 기본 브랜치에 있고 활성화되어 있으면 매일 오전 9시 10분(KST)에 잡힙니다. [GitHub 수동 실행](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow) · [예약 실행](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
+4. 첫 실행이 성공하면 `main`의 [방문 통계 보고서](stats/visitors.md)와 [원본 통계](stats/daily-visitors.json)를 확인하세요. 같은 날 다시 실행하면 해당 날짜의 수치를 교체하므로, API 수치가 같으면 합계도 같게 유지됩니다. 워크플로는 `contents: write`를 요청합니다. 저장 단계가 거부되면 저장소 또는 조직의 Actions 권한과 `main` 브랜치의 직접 푸시 규칙을 확인하세요. [GitHub Actions 권한 설정](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository)
+
+매 실행은 전날을 포함한 최근 7개의 완료된 한국 날짜를 다시 조회합니다. 조회가 하나라도 실패하면 두 파일을 보존하고 실행을 실패로 표시합니다. `401`·`403`이 나오면 토큰 만료일과 프로젝트·팀 범위를 확인하세요. 일일 고유 방문자 합계에는 여러 날 방문한 사람이 날짜별로 포함됩니다. 전체 페이지 조회 수는 날짜 제한을 생략한 API 결과로, Analytics 활성화 이후의 운영 데이터이며 오늘 수치도 포함할 수 있습니다. [Vercel 방문 통계 API](https://vercel.com/docs/rest-api/web-analytics/counts-page-views)
+
+Vercel은 마지막 성공 배포와 비교해 두 통계 파일만 바뀌었으면 빌드를 건너뜁니다. 비교할 커밋을 찾을 수 없으면 일반 빌드를 진행합니다. Vercel의 Deployments에서는 건너뛴 빌드가 `Canceled`로 표시될 수 있습니다. [Ignored Build Step](https://vercel.com/docs/project-configuration/project-settings#ignored-build-step)
+
 **검증 범위**
 
 로컬에서 `npm install`, `npm test`, `npm run build`, `npm run preview`를 확인했습니다. Vercel 공식 라우팅 유틸리티로 SPA 규칙과 정적 경로 제외를 검증했습니다.

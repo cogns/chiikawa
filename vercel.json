@@ -4,6 +4,7 @@
   "installCommand": "npm install",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "ignoreCommand": "test -n \"$VERCEL_GIT_PREVIOUS_SHA\" && git diff --quiet \"$VERCEL_GIT_PREVIOUS_SHA\" HEAD -- . ':(exclude)stats/daily-visitors.json' ':(exclude)stats/visitors.md' || exit 1",
   "rewrites": [
     { "source": "/((?!assets/|images/|favicon\\.png$|og-preview\\.png$|index\\.html$).*)", "destination": "/index.html" }
   ]
