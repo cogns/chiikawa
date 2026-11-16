@@ -1,6 +1,35 @@
 {
   "timezone": "Asia/Seoul",
-  "updatedAt": null,
-  "lifetimePageviews": null,
-  "days": {}
+  "updatedAt": "2026-11-16T12:13:01.172Z",
+  "lifetimePageviews": 10,
+  "days": {
+    "2026-11-15": {
+      "visitors": 1,
+      "pageviews": 2
+    },
+    "2026-11-14": {
+      "visitors": 0,
+      "pageviews": 0
+    },
+    "2026-11-13": {
+      "visitors": 0,
+      "pageviews": 0
+    },
+    "2026-11-12": {
+      "visitors": 0,
+      "pageviews": 0
+    },
+    "2026-11-11": {
+      "visitors": 0,
+      "pageviews": 0
+    },
+    "2026-11-10": {
+      "visitors": 0,
+      "pageviews": 0
+    },
+    "2026-11-09": {
+      "visitors": 0,
+      "pageviews": 0
+    }
+  }
 }
