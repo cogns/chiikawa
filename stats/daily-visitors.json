@@ -1,8 +1,12 @@
 {
   "timezone": "Asia/Seoul",
-  "updatedAt": "2026-11-20T07:02:31.068Z",
+  "updatedAt": "2026-11-21T06:56:20.112Z",
   "lifetimePageviews": 10,
   "days": {
+    "2026-11-20": {
+      "visitors": 0,
+      "pageviews": 0
+    },
     "2026-11-19": {
       "visitors": 0,
       "pageviews": 0
